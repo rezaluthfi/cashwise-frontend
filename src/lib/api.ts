@@ -80,6 +80,12 @@ const DUMMY_BUDGETS: Budget[] = [
   },
 ];
 
+// Function to hash password
+const hashPassword = async (password: string): Promise<string> => {
+  // Dummy hash function for demonstration
+  return `hashed_${password}`;
+};
+
 // Auth API
 export const authApi = {
   login: async (email: string, password: string) => {
@@ -100,8 +106,11 @@ export const authApi = {
     throw new Error("Invalid credentials");
   },
 
-  register: async (name: string, email: string) => {
+  register: async (name: string, email: string, password: string) => {
     await new Promise((resolve) => setTimeout(resolve, 500));
+
+    // Example usage: hashing the password before storing (if applicable)
+    const hashedPassword = await hashPassword(password);
 
     return {
       data: {
@@ -110,6 +119,7 @@ export const authApi = {
           id: "user1",
           name,
           email,
+          password: hashedPassword, // Include the hashed password in the user data
         },
       },
     };
