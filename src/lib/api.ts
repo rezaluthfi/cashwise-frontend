@@ -109,6 +109,7 @@ export const authApi = {
           id: "user1",
           name,
           email,
+          password,
         },
       },
     };
