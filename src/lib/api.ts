@@ -81,7 +81,6 @@ const DUMMY_BUDGETS: Budget[] = [
 ];
 
 // Auth API
-// Auth API
 export const authApi = {
   login: async (email: string, password: string) => {
     await new Promise((resolve) => setTimeout(resolve, 500));
@@ -101,11 +100,8 @@ export const authApi = {
     throw new Error("Invalid credentials");
   },
 
-  register: async (name: string, email: string, password: string) => {
-    // Handle password validation or storage logic here (e.g., hashing, etc.)
+  register: async (name: string, email: string) => {
     await new Promise((resolve) => setTimeout(resolve, 500));
-
-    // Return the user data without including the password in the response
     return {
       data: {
         token: "dummy_token_12345",
