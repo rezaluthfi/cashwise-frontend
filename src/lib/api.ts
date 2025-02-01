@@ -100,7 +100,7 @@ export const authApi = {
     throw new Error("Invalid credentials");
   },
 
-  register: async (name: string, email: string) => {
+  register: async (name: string, email: string, _password: string) => {
     await new Promise((resolve) => setTimeout(resolve, 500));
     return {
       data: {
@@ -109,6 +109,7 @@ export const authApi = {
           id: "user1",
           name,
           email,
+          // Password is no longer returned here to avoid the error and for security reasons
         },
       },
     };
