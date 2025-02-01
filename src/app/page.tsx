@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { ArrowRight, BadgeCheck, BarChart, Clock, Shield } from "lucide-react";
+import { ArrowRight, BarChart, Clock, Shield } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -12,14 +12,14 @@ export default function LandingPage() {
       <nav className="fixed w-full bg-white/90 backdrop-blur-md shadow-md z-50">
         <div className="container mx-auto px-6 py-4 flex justify-between items-center">
           <div className="flex items-center space-x-2">
-            <a href="/">
+            <Link href="/">
               <Image
                 alt="logo"
                 width={52}
                 height={52}
                 src="/assets/cashwise-logo.png"
               />
-            </a>
+            </Link>
             <span className="text-2xl font-bold text-blue-600">CashWise</span>
           </div>
 
@@ -126,14 +126,14 @@ export default function LandingPage() {
             {/* Brand Section */}
             <div>
               <div className="flex items-center space-x-2 mb-4">
-                <a href="/">
+                <Link href="/">
                   <Image
                     alt="logo"
                     width={42}
                     height={42}
                     src="/assets/cashwise-logo.png"
                   />
-                </a>
+                </Link>
                 <span className="text-xl font-bold text-blue-600">
                   CashWise
                 </span>
