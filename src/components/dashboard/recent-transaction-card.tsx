@@ -6,12 +6,12 @@ import { Transaction } from "@/lib/api";
 import { TransactionItem } from "./transaction-item";
 
 interface RecentTransactionsProps {
-  transactions: Transaction[];
+  transactions: Transaction[] | undefined;
   formatRupiah: (amount: number) => string;
 }
 
 export const RecentTransactions = ({
-  transactions,
+  transactions = [], // Provide default empty array
   formatRupiah,
 }: RecentTransactionsProps) => (
   <Card className="bg-white border border-gray-200 shadow-sm rounded-xl">
@@ -30,7 +30,7 @@ export const RecentTransactions = ({
       </Button>
     </CardHeader>
     <CardContent className="space-y-4">
-      {transactions.length > 0 ? (
+      {transactions && transactions.length > 0 ? (
         transactions
           .sort(
             (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()

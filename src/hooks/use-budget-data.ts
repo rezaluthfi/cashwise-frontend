@@ -11,7 +11,7 @@ export const useBudgetData = () => {
   const [refreshTrigger, setRefreshTrigger] = useState(false);
   const { selectedMonth } = useMonthContext();
 
-  const refreshData = () => setRefreshTrigger(prev => !prev);
+  const refreshData = () => setRefreshTrigger((prev) => !prev);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -21,12 +21,12 @@ export const useBudgetData = () => {
           transactionsApi.getAll(),
         ]);
 
-        setBudgets(budgetsRes.data.budgets);
+        setBudgets(budgetsRes.data);
 
         const selectedMonthIndex = months.flat().indexOf(selectedMonth.month);
         const selectedYear = selectedMonth.year;
-        
-        const budgetForMonth = budgetsRes.data.budgets.find((b: Budget) => {
+
+        const budgetForMonth = budgetsRes.data.find((b: Budget) => {
           const budgetDate = new Date(b.month);
           return (
             budgetDate.getMonth() === selectedMonthIndex &&
@@ -36,22 +36,24 @@ export const useBudgetData = () => {
 
         setCurrentBudget(budgetForMonth || null);
 
-        const expenses = transactionsRes.data.transactions
+        const expenses = transactionsRes.data
           .filter((t: Transaction) => {
-            if (t.type !== 'expense') return false;
-            
-            const [yearStr, monthStr] = t.date.split('-');
+            if (t.type !== "expense") return false;
+
+            const [yearStr, monthStr] = t.date.split("-");
             const transactionYear = parseInt(yearStr, 10);
             const transactionMonth = parseInt(monthStr, 10) - 1;
-            
-            return transactionMonth === selectedMonthIndex && 
-                   transactionYear === selectedYear;
+
+            return (
+              transactionMonth === selectedMonthIndex &&
+              transactionYear === selectedYear
+            );
           })
           .reduce((sum: number, t: Transaction) => sum + t.amount, 0);
 
         setTotalExpenses(expenses);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
       } finally {
         setLoading(false);
       }
@@ -66,7 +68,9 @@ export const useBudgetData = () => {
     totalExpenses,
     loading,
     monthlyLimit: currentBudget?.monthly_limit || 0,
-    percentageUsed: currentBudget ? (totalExpenses / currentBudget.monthly_limit) * 100 : 0,
-    refreshData
+    percentageUsed: currentBudget
+      ? (totalExpenses / currentBudget.monthly_limit) * 100
+      : 0,
+    refreshData,
   };
 };

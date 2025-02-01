@@ -40,8 +40,8 @@ export default function TransactionsContent() {
   const fetchTransactions = async () => {
     try {
       const response = await transactionsApi.getAll();
-      setTransactions(response.data.transactions);
-      setFilteredTransactions(response.data.transactions);
+      setTransactions(response.data);
+      setFilteredTransactions(response.data);
     } catch (error) {
       console.error("Failed to fetch transactions:", error);
     }

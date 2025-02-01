@@ -38,7 +38,7 @@ export default function LandingPage() {
               className="bg-blue-600 hover:bg-blue-700 text-white ml-4"
               asChild
             >
-              <Link href="/dashboard">Login</Link>
+              <Link href="/dashboard">Get Started</Link>
             </Button>
           </div>
         </div>

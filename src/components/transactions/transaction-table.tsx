@@ -1,35 +1,42 @@
-'use client';
-import React, { useState, useEffect } from 'react';
-import { ChevronUp, ChevronDown, Edit, Trash2, PencilOff, Pencil } from 'lucide-react';
-import { format } from 'date-fns';
+"use client";
+import React, { useState, useEffect } from "react";
+import {
+  ChevronUp,
+  ChevronDown,
+  Edit,
+  Trash2,
+  PencilOff,
+  Pencil,
+} from "lucide-react";
+import { format } from "date-fns";
 import {
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableHeader,
-  TableRow
-} from '@/components/ui/table';
-import { 
-  Dialog, 
-  DialogContent, 
-  DialogHeader, 
-  DialogTitle 
-} from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { TransactionForm } from '@/components/transactions/transaction-form';
-import { Transaction } from '@/lib/api';
-import { transactionsApi } from '@/lib/api';
-import { useMonthContext } from '@/hooks/month-context';
-import { useToast } from '@/hooks/use-toast';
-import { formatRupiah } from '@/lib/utils';
-import { ExportPDFButton } from './transaction-export';
+  TableRow,
+} from "@/components/ui/table";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { TransactionForm } from "@/components/transactions/transaction-form";
+import { Transaction } from "@/lib/api";
+import { transactionsApi } from "@/lib/api";
+import { useMonthContext } from "@/hooks/month-context";
+import { useToast } from "@/hooks/use-toast";
+import { formatRupiah } from "@/lib/utils";
+import { ExportPDFButton } from "./transaction-export";
 
 interface TransactionsTableProps {
   transactions: Transaction[];
   sortConfig: {
     key: keyof Transaction;
-    direction: 'asc' | 'desc';
+    direction: "asc" | "desc";
   };
   handleSort: (key: keyof Transaction) => void;
   onUpdateTransactions: (updatedTransactions: Transaction[]) => void;
@@ -39,12 +46,13 @@ export function TransactionsTable({
   transactions,
   sortConfig,
   handleSort,
-  onUpdateTransactions
+  onUpdateTransactions,
 }: TransactionsTableProps) {
   const { selectedMonth } = useMonthContext();
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize] = useState(5);
-  const [editingTransaction, setEditingTransaction] = useState<Transaction | null>(null);
+  const [editingTransaction, setEditingTransaction] =
+    useState<Transaction | null>(null);
   const [showActions, setShowActions] = useState(false);
   const { toast } = useToast();
 
@@ -52,43 +60,55 @@ export function TransactionsTable({
     setCurrentPage(1);
   }, [selectedMonth, transactions]);
 
-  const filteredTransactions = selectedMonth.month === "All" 
-    ? transactions.filter(transaction => {
-      const transactionDate = new Date(transaction.date);
-      const transactionYear = format(transactionDate, 'yyyy');
-      return transactionYear ===  String(selectedMonth.year);
-    }) : transactions.filter(transaction => {
-        const transactionDate = new Date(transaction.date);
-        const transactionMonth = format(transactionDate, 'MMM');
-        const transactionYear = format(transactionDate, 'yyyy');
-        return transactionMonth === selectedMonth.month && transactionYear ===  String(selectedMonth.year);
-      });
+  const filteredTransactions =
+    selectedMonth.month === "All"
+      ? transactions.filter((transaction) => {
+          const transactionDate = new Date(transaction.date);
+          const transactionYear = format(transactionDate, "yyyy");
+          return transactionYear === String(selectedMonth.year);
+        })
+      : transactions.filter((transaction) => {
+          const transactionDate = new Date(transaction.date);
+          const transactionMonth = format(transactionDate, "MMM");
+          const transactionYear = format(transactionDate, "yyyy");
+          return (
+            transactionMonth === selectedMonth.month &&
+            transactionYear === String(selectedMonth.year)
+          );
+        });
 
   const totalPages = Math.ceil(filteredTransactions.length / pageSize);
   const startIndex = (currentPage - 1) * pageSize;
   const endIndex = startIndex + pageSize;
-  const paginatedTransactions = filteredTransactions.slice(startIndex, endIndex);
+  const paginatedTransactions = filteredTransactions.slice(
+    startIndex,
+    endIndex
+  );
 
   const SortIcon = ({ columnKey }: { columnKey: keyof Transaction }) => {
     if (sortConfig.key !== columnKey) return null;
-    return sortConfig.direction === 'asc'
-      ? <ChevronUp className="w-4 h-4" />
-      : <ChevronDown className="w-4 h-4" />;
+    return sortConfig.direction === "asc" ? (
+      <ChevronUp className="w-4 h-4" />
+    ) : (
+      <ChevronDown className="w-4 h-4" />
+    );
   };
 
   const handleDeleteTransaction = async (transactionId: string) => {
     try {
       await transactionsApi.delete(transactionId);
-      
-      const updatedTransactions = transactions.filter(t => t._id !== transactionId);
+
+      const updatedTransactions = transactions.filter(
+        (t) => t._id !== transactionId
+      );
       onUpdateTransactions(updatedTransactions);
-      
+
       toast({
         title: "Transaction Deleted",
         description: "Transaction was successfully deleted.",
       });
     } catch (error) {
-      console.error(error)
+      console.error(error);
       toast({
         variant: "destructive",
         title: "Error",
@@ -99,7 +119,7 @@ export function TransactionsTable({
 
   const handleSuccessfulUpdate = () => {
     setEditingTransaction(null);
- 
+
     onUpdateTransactions(transactions);
   };
 
@@ -107,7 +127,8 @@ export function TransactionsTable({
     <div className="border rounded-lg">
       <div className="flex justify-between items-center p-4">
         <div className="text-sm text-muted-foreground">
-          <span className="hidden md:inline">Transactions for</span> {selectedMonth.month}, {selectedMonth.year}
+          <span className="hidden md:inline">Transactions for</span>{" "}
+          {selectedMonth.month}, {selectedMonth.year}
         </div>
         <div className="flex gap-2">
           <ExportPDFButton

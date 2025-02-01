@@ -11,35 +11,18 @@ import { MonthDropdown } from "./month-dropdown";
 import { useState } from "react";
 import Link from "next/link";
 
-
 interface MobileNavProps {
   className?: string;
   pathname: string;
 }
 
-export function MobileNav({
-  className,
-  pathname
-}: MobileNavProps) {
+export function MobileNav({ className, pathname }: MobileNavProps) {
   const [isMonthDropdownOpen, setIsMonthDropdownOpen] = useState(false);
 
   const navItems = [
-    {
-      icon: LayoutDashboard,
-      label: "Dashboard",
-      href: "/dashboard",
-    },
-    {
-      icon: ArrowUpDown,
-      label: "Transactions",
-      href: "/transactions",
-    },
-    {
-      icon: Target,
-      label: "Budget",
-      href: "/budget",
-    },
-
+    { icon: LayoutDashboard, label: "Home", href: "/dashboard" },
+    { icon: ArrowUpDown, label: "Cashflow", href: "/transactions" },
+    { icon: Target, label: "Budget", href: "/budget" },
     {
       icon: CalendarDays,
       label: "Month",
@@ -61,8 +44,8 @@ export function MobileNav({
           className
         )}
       >
-        <div className="mx-4 mb-2">
-          <div className="grid grid-cols-5 items-center bg-green-bar/60 backdrop-blur-lg rounded-2xl p-4 shadow-lg border border-green-bar/5">
+        <div className="mx-4 mb-3">
+          <div className="grid grid-cols-5 items-center bg-blue-800/90 backdrop-blur-lg rounded-2xl p-4 shadow-md border border-blue-700/40">
             {navItems.slice(0, 2).map((item) => (
               <MobileNavItem
                 key={item.label}
@@ -71,10 +54,10 @@ export function MobileNav({
               />
             ))}
 
-            <div className=" flex items-center justify-center">
+            <div className="flex items-center justify-center">
               <Link href="/transactions?action=add" passHref>
                 <button
-                  className="flex items-center justify-center w-14 h-14 bg-zinc-700 rounded-xl shadow-lg hover:bg-zinc-800 transition-colors"
+                  className="flex items-center justify-center w-14 h-14 bg-blue-700 rounded-full shadow-md hover:bg-blue-600 transition-all"
                   aria-label="Add new"
                 >
                   <Plus className="w-7 h-7 text-white" />

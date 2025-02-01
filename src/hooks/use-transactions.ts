@@ -1,20 +1,20 @@
-import { useEffect, useState } from "react"
-import { transactionsApi, type Transaction } from "@/lib/api"
+import { useEffect, useState } from "react";
+import { transactionsApi, type Transaction } from "@/lib/api";
 
 export const useTransactions = () => {
-  const [transactions, setTransactions] = useState<Transaction[]>([])
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
 
   useEffect(() => {
     const fetchTransactions = async () => {
       try {
-        const response = await transactionsApi.getAll()
-        setTransactions(response.data.transactions)
+        const response = await transactionsApi.getAll();
+        setTransactions(response.data);
       } catch (error) {
-        console.error("Failed to fetch transactions:", error)
+        console.error("Failed to fetch transactions:", error);
       }
-    }
-    fetchTransactions()
-  }, [])
+    };
+    fetchTransactions();
+  }, []);
 
-  return { transactions }
-}
+  return { transactions };
+};
