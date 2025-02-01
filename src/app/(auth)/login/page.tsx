@@ -9,7 +9,6 @@ import { useToast } from "@/hooks/use-toast";
 import { authApi } from "@/lib/api";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 
 const loginSchema = z.object({

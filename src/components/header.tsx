@@ -2,8 +2,8 @@
 
 import { Button } from "@/components/ui/button";
 import { LogOut } from "lucide-react";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export function Header() {
   const router = useRouter();
@@ -15,9 +15,9 @@ export function Header() {
 
   return (
     <header className="h-16 border-b border-blue-600 flex items-center justify-between mx-6">
-      <a href="/dashboard" className="text-2xl font-bold text-blue-600">
+      <Link href="/dashboard" className="text-2xl font-bold text-blue-600">
         CashWise
-      </a>
+      </Link>
       <Button
         className="border-l-4 border-blue-600"
         size="icon"

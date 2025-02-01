@@ -1,6 +1,5 @@
 "use client";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, BadgeCheck, BarChart, Clock, Shield } from "lucide-react";
 import Image from "next/image";
