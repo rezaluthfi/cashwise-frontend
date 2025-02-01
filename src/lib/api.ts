@@ -80,12 +80,6 @@ const DUMMY_BUDGETS: Budget[] = [
   },
 ];
 
-// Function to hash password
-const hashPassword = async (password: string): Promise<string> => {
-  // Dummy hash function for demonstration
-  return `hashed_${password}`;
-};
-
 // Auth API
 export const authApi = {
   login: async (email: string, password: string) => {
@@ -109,8 +103,8 @@ export const authApi = {
   register: async (name: string, email: string, password: string) => {
     await new Promise((resolve) => setTimeout(resolve, 500));
 
-    // Example usage: hashing the password before storing (if applicable)
-    const hashedPassword = await hashPassword(password);
+    // Example: Hash the password (this is just a placeholder logic)
+    const hashedPassword = await hashPassword(password); // Add logic for password hashing if needed
 
     return {
       data: {
@@ -119,7 +113,7 @@ export const authApi = {
           id: "user1",
           name,
           email,
-          password: hashedPassword, // Include the hashed password in the user data
+          password: hashedPassword, // Include password if needed for backend logic
         },
       },
     };
@@ -130,6 +124,12 @@ export const authApi = {
       24 * 60 * 60
     }; SameSite=Strict;`;
   },
+};
+
+// Add a dummy function for password hashing
+const hashPassword = async (password: string): Promise<string> => {
+  // Add real hashing logic here, e.g., using bcrypt or another hashing library
+  return `hashed_${password}`;
 };
 
 // Transactions API
