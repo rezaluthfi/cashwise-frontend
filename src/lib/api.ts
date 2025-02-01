@@ -102,6 +102,7 @@ export const authApi = {
 
   register: async (name: string, email: string) => {
     await new Promise((resolve) => setTimeout(resolve, 500));
+
     return {
       data: {
         token: "dummy_token_12345",
