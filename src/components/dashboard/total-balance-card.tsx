@@ -2,65 +2,34 @@ import React, { useState } from "react";
 import { Eye, EyeOff, TrendingDown, TrendingUp } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { useBudgetData } from "@/hooks/use-budget-data";
 
-const formatRupiah = (
-  amount: number,
-  options?: { abbreviate?: boolean }
-): string => {
-  const formatter = new Intl.NumberFormat("id-ID", {
-    style: "currency",
-    currency: "IDR",
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  });
+interface Summary {
+  totalIncome: number;
+  totalExpenses: number;
+  balance: number;
+  percentageIncome: number;
+  percentageExpenses: number;
+  percentageBalance: number;
+  differenceIncome: number;
+  differenceExpenses: number;
+  totalBalance: number;
+}
 
-  if (options?.abbreviate) {
-    const thresholds = [
-      { divisor: 1e12, suffix: "t" },
-      { divisor: 1e9, suffix: "m" },
-      { divisor: 1e6, suffix: "jt" },
-      { divisor: 1e3, suffix: "rb" },
-    ];
+interface BalanceCardProps {
+  summary: Summary;
+  formatRupiah: (amount: number, options?: { abbreviate?: boolean }) => string;
+}
 
-    const threshold = thresholds.find((t) => Math.abs(amount) >= t.divisor);
-
-    if (threshold) {
-      const formatted = new Intl.NumberFormat("id-ID", {
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 1,
-      }).format(amount / threshold.divisor);
-
-      return `Rp${formatted}${threshold.suffix}`;
-    }
-  }
-
-  return formatter.format(amount);
-};
-
-const BalanceCard: React.FC = () => {
+const BalanceCard: React.FC<BalanceCardProps> = ({ summary, formatRupiah }) => {
   const [showBalance, setShowBalance] = useState<boolean>(true);
-  const { monthlyLimit, totalExpenses, loading, percentageUsed } =
-    useBudgetData();
 
   const toggleBalance = (): void => {
     setShowBalance(!showBalance);
   };
 
-  if (loading) {
-    return (
-      <Card className="bg-white border border-gray-200 shadow-sm rounded-xl">
-        <CardContent className="p-4">
-          <div className="animate-pulse">
-            <div className="h-4 bg-gray-200 rounded w-1/4 mb-4"></div>
-            <div className="h-8 bg-gray-200 rounded w-1/2"></div>
-          </div>
-        </CardContent>
-      </Card>
-    );
-  }
-
-  const remainingBudget = monthlyLimit - totalExpenses;
+  const remainingBudget = summary.balance;
+  const totalExpenses = summary.totalExpenses;
+  const monthlyLimit = summary.totalBalance; // Assuming totalBalance is the monthly limit
   const isOverBudget = remainingBudget < 0;
 
   return (
@@ -103,7 +72,9 @@ const BalanceCard: React.FC = () => {
                   <TrendingUp className="text-green-400" size={20} />
                 )}
               </div>
-              <p className="text-sm text-white">{percentageUsed.toFixed(1)}%</p>
+              <p className="text-sm text-white">
+                {summary.percentageBalance.toFixed(1)}%
+              </p>
             </div>
           </div>
         </div>

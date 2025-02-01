@@ -37,7 +37,7 @@ export default function DashboardPage() {
         />
       </div>
 
-      {/* Total Balance Full Width */}
+      {/* Total Balance Card */}
       <BalanceCard summary={summary} formatRupiah={formatRupiah} />
 
       {/* Layout Utama */}
